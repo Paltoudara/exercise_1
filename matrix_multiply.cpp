@@ -4,7 +4,7 @@
 #include<new>
 #include<cmath>
 constexpr int n{ 2000 };
-constexpr int NUM_THREADS{ 3 };
+constexpr int NUM_THREADS{ 8 };
 int main(void)
 {
 	double sum, * u, * a, * b;
