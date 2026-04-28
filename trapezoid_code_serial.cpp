@@ -6,6 +6,7 @@ constexpr int n = 1000;
 constexpr double a = 0.0;
 constexpr double b = std::numbers::pi;
 constexpr double h = (b - a) / (double)n;
+constexpr double correct = std::numbers::pi * std::numbers::pi - 4;//what is the result
 inline double function_f(const double x)noexcept {
 	return x * x * std::sin(x);
 }
@@ -21,6 +22,8 @@ int main() {
 	auto end = std::chrono::high_resolution_clock::now();
 	double serial_time=std::chrono::duration<double>(end - start).count();
 	std::cout <<"Area: " << area << '\n';
-  std::cout<<"Serial: "<<serial_time<<'\n';
+	std::cout<<"Correct Area: "<<correct<<'\n';
+  	std::cout<<"Serial: "<<serial_time<<'\n';
+
 	//serial part
 }
