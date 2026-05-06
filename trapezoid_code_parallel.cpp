@@ -26,5 +26,5 @@ int main() {
 	std::cout <<"Area :" << area << '\n';
 	std::cout <<"Correct Area :" << correct << '\n';
 	std::cout <<"parallel :" << parallel_time << '\n';
-	
+	//parallel part
 }
