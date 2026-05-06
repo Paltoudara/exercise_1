@@ -21,6 +21,7 @@ int main() {
 	}//for
 	auto end = std::chrono::high_resolution_clock::now();
 	double serial_time=std::chrono::duration<double>(end - start).count();
+	
 	std::cout <<"Area: " << area << '\n';
 	std::cout<<"Correct Area: "<<correct<<'\n';
   	std::cout<<"Serial: "<<serial_time<<'\n';
