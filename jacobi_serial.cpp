@@ -28,7 +28,6 @@ std::vector<double> jacobi_solver_openmp(const long long n,const std::vector<dou
 	//
 	while (error>tol &&k < max_iter) {
 		double sum_sq = 0.0;
-		#pragma omp parallel for reduction(+:sum_sq)
 		for (long long i = 0; i < n; i++) {
 			double sigma = 0.0;
 			for (long long j = 0; j < n; j++) {
