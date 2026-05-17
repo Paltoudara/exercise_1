@@ -3,6 +3,7 @@
 #include<cstdlib>
 #include<vector>
 #include<random>
+#include<chrono>
 double find_how_close(const std::vector<double>& A, const std::vector <double>& x,const std::vector<double>&b, const long long n) {//done
 	//
 	double error_squared = 0.0;
@@ -28,7 +29,7 @@ std::vector<double> jacobi_solver_openmp(const long long n,const std::vector<dou
 	//
 	while (error>tol &&k < max_iter) {
 		double sum_sq = 0.0;
-    #pragma omp parallel for reduction(+:sum_sq)
+		#pragma omp parallel for  reduction(+:sum_sq) num_threads(8)
 		for (long long i = 0; i < n; i++) {
 			double sigma = 0.0;
 			for (long long j = 0; j < n; j++) {
@@ -37,8 +38,7 @@ std::vector<double> jacobi_solver_openmp(const long long n,const std::vector<dou
 				}
 			}
 			x_new[i] = (b[i] - sigma) / A[i * n + i];
-			double diff = x_new[i] - x_old[i];
-			sum_sq += diff * diff;
+			sum_sq += (x_new[i] - x_old[i]) * (x_new[i] - x_old[i]);
 		}
 		std::swap(x_old, x_new);
 		error = std::sqrt(sum_sq);
@@ -73,18 +73,21 @@ void initialize_matrix_and_vector(std::vector<double>& A,std::vector<double>&b,c
 
 int main() {
 	
-	long long n= 25;
+	constexpr long long n = 2000;
 	//
 	std::vector<double>A(n*n);
 	std::vector<double>b(n);
 	std::vector<double>x_first(n,0.0);
 	//
 	initialize_matrix_and_vector(A,b,n);
-	x_first=jacobi_solver_openmp(n, A, b,x_first, 10000);
-	//x_first contains the solution
 	//
-	std::cout << find_how_close(A, x_first, b, n)<<'\n';
-	
+	auto start = std::chrono::high_resolution_clock::now();
+	x_first=jacobi_solver_openmp(n, A, b,x_first, 10000);
+	auto end = std::chrono::high_resolution_clock::now();
+	//
+
+	std::cout << std::chrono::duration<double>(end - start).count()<<'\n';
+	std::cout << find_how_close(A, x_first, b, n) << '\n';
 }
 //poly barh do you want me to use it ?
 /*if (error(A, x_old, b, n) < tol) {
