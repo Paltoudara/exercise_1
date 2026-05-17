@@ -25,6 +25,7 @@ std::vector<double> jacobi_solver_openmp(const long long n,const std::vector<dou
 	std::vector<double> x_new(n,0.0);
 	double error = tol + 1.0;
 	long long k = 0;
+	//double sink = 0.0;
 	//
 	//
 	while (error>tol &&k < max_iter) {
@@ -37,6 +38,7 @@ std::vector<double> jacobi_solver_openmp(const long long n,const std::vector<dou
 					sigma += A[i * n + j] * x_old[j];
 				}
 			}
+			//sink += sigma;
 			x_new[i] = (b[i] - sigma) / A[i * n + i];
 			sum_sq += (x_new[i] - x_old[i]) * (x_new[i] - x_old[i]);
 		}
@@ -44,6 +46,7 @@ std::vector<double> jacobi_solver_openmp(const long long n,const std::vector<dou
 		error = std::sqrt(sum_sq);
 		k++;
 	}
+	//std::cout << sink << '\n';
 	return x_old;
 }
 
