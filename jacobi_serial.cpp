@@ -36,8 +36,7 @@ std::vector<double> jacobi_solver_openmp(const long long n,const std::vector<dou
 				}
 			}
 			x_new[i] = (b[i] - sigma) / A[i * n + i];
-			double diff = x_new[i] - x_old[i];
-			sum_sq += diff * diff;
+			sum_sq += (x_new[i] - x_old[i]) * (x_new[i] - x_old[i]);
 		}
 		std::swap(x_old, x_new);
 		error = std::sqrt(sum_sq);
